@@ -3,8 +3,7 @@
       "baseUrl": "./src",
       "paths": {
         "@components":["components/index.ts"],       
-        "@sections":["sections/index.ts"],
-        "@layout":["layout/index.ts"]
+        "@pages":["pages/index.ts"]
       }
     }
   }
