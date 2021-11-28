@@ -1,0 +1,32 @@
+mutation CreateOrder(
+  $name: String!
+  $phoneNumber: String!
+  $area: String!
+  $books: [String!]!
+  $isDelivered: Boolean!
+) {
+  createOrder(
+    options: {
+      name: $name
+      phoneNumber: $phoneNumber
+      area: $area
+      books: $books
+      isDelivered: $isDelivered
+    }
+  ) {
+    errors {
+      field
+      message
+    }
+    data {
+      _id
+      name
+      phoneNumber
+      area
+      books
+      createdAt
+      updatedAt
+    }
+    statusCode
+  }
+}

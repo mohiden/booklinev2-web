@@ -1,0 +1,12 @@
+query Orders {
+  orders {
+    _id
+    name
+    phoneNumber
+    area
+    books
+    isDelivered
+    createdAt
+    updatedAt
+  }
+}
