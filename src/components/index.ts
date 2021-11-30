@@ -3,6 +3,7 @@ export * from './AddOrder';
 export * from './ListOrders';
 export * from './Header';
 export * from './Dashboard';
+export * from './EditSwal';
 
 export * from './Sidebar';
 export { tabs } from './Sidebar/tabs'

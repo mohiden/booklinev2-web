@@ -84,6 +84,18 @@ export type CreateOrderMutationVariables = Exact<{
 
 export type CreateOrderMutation = { __typename?: 'Mutation', createOrder: { __typename?: 'OrderResponse', statusCode?: string | null | undefined, errors?: Array<{ __typename?: 'ErrorFelids', field: string, message: string }> | null | undefined, data?: { __typename?: 'Order', _id?: string | null | undefined, name: string, phoneNumber: string, area: string, books: Array<string>, createdAt: any, updatedAt: any } | null | undefined } };
 
+export type UpdateOrderMutationVariables = Exact<{
+  name: Scalars['String'];
+  phoneNumber: Scalars['String'];
+  area: Scalars['String'];
+  books: Array<Scalars['String']> | Scalars['String'];
+  isDelivered: Scalars['Boolean'];
+  orderId: Scalars['String'];
+}>;
+
+
+export type UpdateOrderMutation = { __typename?: 'Mutation', createOrder: { __typename?: 'OrderResponse', statusCode?: string | null | undefined, errors?: Array<{ __typename?: 'ErrorFelids', field: string, message: string }> | null | undefined, data?: { __typename?: 'Order', _id?: string | null | undefined, name: string, phoneNumber: string, area: string, books: Array<string>, createdAt: any, updatedAt: any } | null | undefined } };
+
 export type DeleteOrderMutationVariables = Exact<{
   orderId: Scalars['String'];
 }>;
@@ -149,6 +161,60 @@ export function useCreateOrderMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateOrderMutationHookResult = ReturnType<typeof useCreateOrderMutation>;
 export type CreateOrderMutationResult = Apollo.MutationResult<CreateOrderMutation>;
 export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<CreateOrderMutation, CreateOrderMutationVariables>;
+export const UpdateOrderDocument = gql`
+    mutation UpdateOrder($name: String!, $phoneNumber: String!, $area: String!, $books: [String!]!, $isDelivered: Boolean!, $orderId: String!) {
+  createOrder(
+    options: {name: $name, phoneNumber: $phoneNumber, area: $area, books: $books, isDelivered: $isDelivered}
+    orderId: $orderId
+  ) {
+    errors {
+      field
+      message
+    }
+    data {
+      _id
+      name
+      phoneNumber
+      area
+      books
+      createdAt
+      updatedAt
+    }
+    statusCode
+  }
+}
+    `;
+export type UpdateOrderMutationFn = Apollo.MutationFunction<UpdateOrderMutation, UpdateOrderMutationVariables>;
+
+/**
+ * __useUpdateOrderMutation__
+ *
+ * To run a mutation, you first call `useUpdateOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateOrderMutation, { data, loading, error }] = useUpdateOrderMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      phoneNumber: // value for 'phoneNumber'
+ *      area: // value for 'area'
+ *      books: // value for 'books'
+ *      isDelivered: // value for 'isDelivered'
+ *      orderId: // value for 'orderId'
+ *   },
+ * });
+ */
+export function useUpdateOrderMutation(baseOptions?: Apollo.MutationHookOptions<UpdateOrderMutation, UpdateOrderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateOrderMutation, UpdateOrderMutationVariables>(UpdateOrderDocument, options);
+      }
+export type UpdateOrderMutationHookResult = ReturnType<typeof useUpdateOrderMutation>;
+export type UpdateOrderMutationResult = Apollo.MutationResult<UpdateOrderMutation>;
+export type UpdateOrderMutationOptions = Apollo.BaseMutationOptions<UpdateOrderMutation, UpdateOrderMutationVariables>;
 export const DeleteOrderDocument = gql`
     mutation DeleteOrder($orderId: String!) {
   deleteOrder(orderId: $orderId)

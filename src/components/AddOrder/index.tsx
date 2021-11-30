@@ -102,6 +102,7 @@ export const AddOrder = () => {
                       isClearable
                       value={selectValues}
                       onChange={(v: MultiValue<any>) => {
+                        console.log(v);
                         setSelectValues(v);
                         setOrder({
                           ...order,

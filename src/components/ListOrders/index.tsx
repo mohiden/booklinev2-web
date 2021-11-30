@@ -1,7 +1,31 @@
-import { useDeleteOrderMutation, useOrdersQuery } from '../../generated/graphql'
-import React, { useEffect } from 'react'
+import { useDeleteOrderMutation, useOrdersQuery, useUpdateOrderMutation } from '../../generated/graphql'
+import React, { useEffect, useRef } from 'react'
+import { AiFillDelete } from 'react-icons/ai'
+import { FiEdit } from 'react-icons/fi'
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import { EditSwal } from '@components'
+import { Order } from '@lib';
+
+const MySwal = withReactContent(Swal);
 
 export const ListOrders = () => {
+
+    const [updateOrder, { }] = useUpdateOrderMutation();
+
+    async function onUpdateClickHandler(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, order: Order) {
+        e.preventDefault();
+        const res = await updateOrder({
+            variables: {
+                ...order,
+                orderId: order._id?.trim() as string
+            }
+        });
+        if (res.data && !res.errors) {
+            window.location.reload();
+        }
+
+    }
 
     useEffect(() => {
         refetch();
@@ -27,6 +51,15 @@ export const ListOrders = () => {
         alert("failed");
     }
 
+    async function editHandler(order: Order) {
+        MySwal.fire({
+            html: <EditSwal order={order} onUpdateClickHandler={onUpdateClickHandler} />,
+            allowOutsideClick: false,
+            width: 700,
+            showConfirmButton: false,
+        })
+    }
+
     return (
         <div id="content" className="main-content">
             <div className="layout-px-spacing">
@@ -45,24 +78,33 @@ export const ListOrders = () => {
                                             <th>Books</th>
                                             <th>isDelivered</th>
                                             <th>createdAt</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {
                                             !loading && !error && data?.orders.map((o, idx) => (
-                                                <tr key={idx} onClick={() => deleteOrderHandler(o._id as string)}>
-                                                    <td>{o._id}</td>
-                                                    <td>{o.phoneNumber}</td>
+                                                <tr key={idx} onClick={() => { }}>
+                                                    <td>{idx + 1}</td>
                                                     <td>{o.name}</td>
+                                                    <td>{o.phoneNumber}</td>
                                                     <td>{o.area}</td>
                                                     <td>{o.books.toString()}</td>
                                                     <td>{o.isDelivered ? "true" : "false"}</td>
                                                     <td>{o.createdAt}</td>
+                                                    <td>
+                                                        <FiEdit
+                                                            size={25}
+                                                            style={{ cursor: "pointer", marginRight: '10px' }}
+                                                            onClick={() => editHandler(o as Order)}
+                                                        />
+                                                        <AiFillDelete size={25} style={{ cursor: 'pointer' }} />
+                                                    </td>
                                                 </tr>
                                             ))
                                         }
                                     </tbody>
-                                    <tfoot>
+                                    {/* <tfoot>
                                         <tr>
                                             <th>Name</th>
                                             <th>Position</th>
@@ -72,7 +114,7 @@ export const ListOrders = () => {
                                             <th>Salary</th>
                                             <th />
                                         </tr>
-                                    </tfoot>
+                                    </tfoot> */}
                                 </table>
                             </div>
                         </div>

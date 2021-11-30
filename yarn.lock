@@ -10755,6 +10755,11 @@ react-error-overlay@^6.0.9:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
 
+react-icons@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.3.1.tgz#2fa92aebbbc71f43d2db2ed1aed07361124e91ca"
+  integrity sha512-cB10MXLTs3gVuXimblAdI71jrJx8njrJZmNMEMC+sQu5B/BIOmlsAjskdqpn81y8UBVEGuHODd7/ci5DvoSzTQ==
+
 react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -12266,6 +12271,16 @@ swap-case@^2.0.2:
   integrity sha512-kc6S2YS/2yXbtkSMunBtKdah4VFETZ8Oh6ONSmSd9bRxhqTrtARUCBUiWXH3xVPpvR7tz2CSnkuXVE42EcGnMw==
   dependencies:
     tslib "^2.0.3"
+
+sweetalert2-react-content@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/sweetalert2-react-content/-/sweetalert2-react-content-4.2.0.tgz#ab4a6e02e37150dd0ea34d00179ec76952e3f442"
+  integrity sha512-eB324swnq10UJH8nAH2S6GHuAKDgH6GpGU8vI+ulYdmlPzpb0T5QPc7O4RFNRx28GzVZUnfvtpxZbKtZ5/KOnQ==
+
+sweetalert2@^11.2.1:
+  version "11.2.1"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.2.1.tgz#40be6dfe91359c1133d55bf12fa2dbc0f8d6a53f"
+  integrity sha512-6O+Ftl3yCg58pUqMiEn58+p7bQd7h7YrAM1diSaTJcRPO23bcfVd2DI2hW3246XVlTgL+EauV76va6VN5LrfIw==
 
 symbol-observable@^1.0.4, symbol-observable@^1.1.0:
   version "1.2.0"
