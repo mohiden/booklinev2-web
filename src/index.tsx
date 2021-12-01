@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'antd/dist/antd.css';
 import { BrowserRouter } from 'react-router-dom';
-import AppRoutes from './AppRoutes';
+import { AppRoutes } from './AppRoutes';
 import {
   ApolloClient,
   InMemoryCache,
@@ -18,9 +19,7 @@ ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <BrowserRouter>
-        <div className="dashboard-analytics">
-          <AppRoutes />
-        </div>
+        <AppRoutes />
       </BrowserRouter>
     </ApolloProvider>
   </React.StrictMode>,
