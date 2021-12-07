@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Layout } from "antd";
+import { Affix, Layout } from "antd";
 import { Header, Sidebar, Content } from "@layout";
 import { useNavigate } from "react-router";
 
@@ -16,12 +16,14 @@ export const App = () => {
 
   return (
     //Main layout wrapper
-    <Layout style={{ height: "100vh" }}>
+    <Layout>
       {/* Sidebar  */}
       <Sidebar />
       {/* Header and content */}
       <Layout>
+        {/* <Affix> */}
         <Header />
+        {/* </Affix> */}
         <Content />
       </Layout>
     </Layout>

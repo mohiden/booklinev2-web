@@ -9,22 +9,18 @@ import { useNavigate } from "react-router";
 export const Sidebar = () => {
   const { collapse } = useStore();
   const navigate = useNavigate();
+  console.log(window.location.pathname);
   return (
     <Layout.Sider trigger={null} collapsible collapsed={collapse}>
       <div className="logo">
-        <img
-          style={{
-            maxWidth: "100%",
-            width: "63px",
-          }}
-          src="/assets/images/logo.png"
-          alt="logo"
-        />
+        <img className="header-logo" src="/assets/images/logo.png" alt="logo" />
       </div>
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={["1"]}
+        defaultSelectedKeys={
+          window.location.pathname.includes("order") ? ["2"] : ["1"]
+        }
         style={{ height: "100vh" }}
       >
         <Menu.Item key="1" icon={<UserOutlined />} onClick={() => navigate("")}>

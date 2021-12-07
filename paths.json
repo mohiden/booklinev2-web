@@ -8,7 +8,8 @@
         "@layout":["layout/index.ts"],
         "@store":["store/index.ts"],
         "@generated":["generated/graphql.tsx"],
-        "@sections":["sections/index.ts"]
+        "@sections":["sections/index.ts"],
+        "@utils":["utils/index.ts"]
       }
     }
   }

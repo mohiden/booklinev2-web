@@ -1,0 +1,44 @@
+.header-layout {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.content-layout {
+  margin: 24px 16px;
+  padding: 24;
+  min-height: 280;
+}
+
+.header-logo {
+  max-width: 100%;
+  width: 63px;
+}
+
+.order-top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.add-icon {
+  max-width: 100%;
+  width: 40px;
+  margin-left: auto;
+  margin-right: 1rem;
+  background-color: #ddd;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.action-icon {
+  max-width: 100%;
+  cursor: pointer;
+  width: 30px;
+  background-color: #ddd;
+  padding: 5px;
+  border-radius: 5px;
+}

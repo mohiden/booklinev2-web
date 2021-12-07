@@ -1,4 +1,6 @@
+import { useCreateOrderMutation, useUpdateOrderMutation } from "@generated";
 import { Order } from "@lib";
+import { notify } from "@utils";
 import { Button, Form, Input, Modal, Select } from "antd";
 import React, { useEffect } from "react";
 
@@ -8,6 +10,7 @@ interface CustomModaProps {
   order?: Order | undefined;
   title: string;
   callback: (values: any) => void;
+  onFormSubmitHandler: (body: Order) => void;
 }
 
 export const CustomModal: React.FC<CustomModaProps> = ({
@@ -16,14 +19,23 @@ export const CustomModal: React.FC<CustomModaProps> = ({
   visible,
   setVisible,
   order,
+  onFormSubmitHandler,
 }) => {
   const [form] = Form.useForm();
+  const [updateOrder, { loading: updateLoading }] = useUpdateOrderMutation();
+  const [createOrder, { loading: createLoading }] = useCreateOrderMutation();
+
+  async function onSubmitHander(values: Order) {
+    console.log("SUBMITTING", values);
+    onFormSubmitHandler(values);
+  }
   return (
     <Modal
       visible={visible}
       title={title}
       okText={title}
       onOk={() => form.submit()}
+      confirmLoading={order ? updateLoading : createLoading}
       onCancel={() => setVisible(false)}
     >
       <Form
@@ -35,12 +47,10 @@ export const CustomModal: React.FC<CustomModaProps> = ({
           books: order?.books ?? [],
         }}
         size="large"
-        onFinish={(values) => {
-          console.log(values);
-        }}
+        onFinish={onSubmitHander}
       >
         <Form.Item name="name">
-          <Input type="text" placeholder="name" defaultValue="hlesfk" />
+          <Input type="text" placeholder="name" />
         </Form.Item>
 
         <Form.Item name="area">

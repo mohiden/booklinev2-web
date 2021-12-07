@@ -10,15 +10,7 @@ export const Header = () => {
   const setCollapse = useStore((state) => state.setCollapse);
   return (
     // <Affix>
-    <Layout.Header
-      className="site-layout-background"
-      style={{
-        padding: 0,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-around",
-      }}
-    >
+    <Layout.Header className="header-layout">
       {React.createElement(true ? MenuUnfoldOutlined : MenuFoldOutlined, {
         style: { color: "white", fontSize: "1.5rem" },
         className: "trigger",
