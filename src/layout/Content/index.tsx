@@ -1,4 +1,4 @@
-import { Orders } from "@components";
+import { Orders } from "@sections";
 import { Layout } from "antd";
 import React from "react";
 import { Route, Routes } from "react-router";
@@ -14,7 +14,7 @@ export const Content = () => {
       }}
     >
       <Routes>
-        <Route path="/" element={<Orders />} />
+        <Route path="/order" element={<Orders />} />
       </Routes>
     </Layout.Content>
   );

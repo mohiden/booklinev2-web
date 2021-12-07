@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 export const Login = () => {
@@ -19,7 +19,7 @@ export const Login = () => {
       <Form
         name="normal_login"
         className="login-form"
-        initialValues={{ remember: true }}
+        initialValues={{}} // form item name as its variable to set initial value
         onFinish={onFinish}
       >
         <Form.Item
