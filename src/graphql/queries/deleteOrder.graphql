@@ -1,3 +1,0 @@
-mutation DeleteOrder($orderId: String!) {
-  deleteOrder(orderId: $orderId)
-}

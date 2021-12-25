@@ -1,23 +1,14 @@
 import React, { useState } from "react";
 import { Pagination, Table, Tag } from "antd";
-import {
-  useCreateOrderMutation,
-  useOrdersQuery,
-  useUpdateOrderMutation,
-} from "@generated";
 import { CustomModal } from "@components";
 import { Order } from "@lib";
 import { notify } from "@utils";
-import { count } from "console";
 const { Column } = Table;
 
 export const Orders = () => {
-  const { data, loading, refetch } = useOrdersQuery();
   const [visible, setVisible] = useState<boolean>(false);
   const [currentOrder, setCurrentOrder] = useState<Order | undefined>();
   const [modalType, setModalType] = useState<"new" | "update">("new");
-  const [createOrder, {}] = useCreateOrderMutation();
-  const [updateOrder, {}] = useUpdateOrderMutation();
 
   const columns: any = [
     {
@@ -62,34 +53,7 @@ export const Orders = () => {
     },
   ];
 
-  const onModalFormSubmitHandler = async (body: Order) => {
-    try {
-      let res;
-      if (modalType === "new") {
-        res = await createOrder({
-          variables: {
-            ...body,
-            isDelivered: false,
-          },
-        });
-      } else {
-        res = await updateOrder({
-          variables: {
-            ...body,
-            isDelivered: false,
-            orderId: currentOrder?._id as string,
-          },
-        });
-      }
-      if (res && !res.errors) {
-        setVisible(false);
-        notify("Notification", "success", "Operation successfully completed");
-        refetch();
-      }
-    } catch (e: any) {
-      console.log(e);
-    }
-  };
+  const onModalFormSubmitHandler = async (body: Order) => {};
   return (
     <>
       <div className="order-top">
@@ -104,10 +68,10 @@ export const Orders = () => {
           alt="addIcon"
         />
       </div>
-      <Table
-        dataSource={data?.orders}
+      {/* <Table
+        dataSource={}
         rowKey={(b) => b.updatedAt}
-        loading={loading}
+        loading={true}
         pagination={{
           pageSize: 10,
           responsive: true,
@@ -163,7 +127,7 @@ export const Orders = () => {
             );
           }}
         />
-      </Table>
+      </Table> */}
 
       {!currentOrder && (
         <CustomModal

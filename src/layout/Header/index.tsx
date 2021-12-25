@@ -1,16 +1,13 @@
 import React from "react";
 import { Affix, Layout, Menu } from "antd";
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
+import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { useStore } from "@store";
 export const Header = () => {
-  const setCollapse = useStore((state) => state.setCollapse);
+  const { setCollapse, user } = useStore();
   return (
     // <Affix>
     <Layout.Header className="header-layout">
+      <h1 style={{ color: "white" }}>{user?.username}</h1>
       {React.createElement(true ? MenuUnfoldOutlined : MenuFoldOutlined, {
         style: { color: "white", fontSize: "1.5rem" },
         className: "trigger",

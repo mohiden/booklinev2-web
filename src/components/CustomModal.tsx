@@ -1,4 +1,3 @@
-import { useCreateOrderMutation, useUpdateOrderMutation } from "@generated";
 import { Order } from "@lib";
 import { notify } from "@utils";
 import { Button, Form, Input, Modal, Select } from "antd";
@@ -22,8 +21,6 @@ export const CustomModal: React.FC<CustomModaProps> = ({
   onFormSubmitHandler,
 }) => {
   const [form] = Form.useForm();
-  const [updateOrder, { loading: updateLoading }] = useUpdateOrderMutation();
-  const [createOrder, { loading: createLoading }] = useCreateOrderMutation();
 
   async function onSubmitHander(values: Order) {
     console.log("SUBMITTING", values);
@@ -35,7 +32,7 @@ export const CustomModal: React.FC<CustomModaProps> = ({
       title={title}
       okText={title}
       onOk={() => form.submit()}
-      confirmLoading={order ? updateLoading : createLoading}
+      confirmLoading={true}
       onCancel={() => setVisible(false)}
     >
       <Form
