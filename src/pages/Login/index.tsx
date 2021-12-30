@@ -1,34 +1,12 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { LoginInput, useLoginMutation } from "@generated";
 import { useStore } from "@store";
 
-//  TODOS:
-//show error if found
 export const Login = () => {
-  const [logIn, { data, error, loading }] = useLoginMutation();
-  const { setAuthValue } = useStore();
-
   // on form Submit
-  const onFinish = async (values: LoginInput) => {
-    // console.log("Received values of form: ", values);
-    try {
-      const res = await logIn({
-        variables: {
-          input: values,
-        },
-      });
-      if (res.data?.login && data?.login && !error) {
-        console.log("LOGGED IN");
-        console.log(data.login);
-        setAuthValue(data?.login);
-        window.location.assign("/app");
-        return;
-      }
-    } catch (e: any) {
-      console.log(e.message);
-    }
+  const onFinish = async (values: any) => {
+    console.log("Received values of form: ", values);
   };
   return (
     <div
@@ -66,12 +44,12 @@ export const Login = () => {
         </Form.Item>
 
         <Form.Item>
-          {error && <p>{error.message}</p>}
+          {/* {error && <p>{error.message}</p>} */}
           <Button
             type="primary"
             htmlType="submit"
             className="login-form-button"
-            loading={loading}
+            loading={false}
           >
             Log in
           </Button>

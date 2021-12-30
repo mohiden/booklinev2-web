@@ -7,16 +7,11 @@ import { parseJwt } from "@utils";
 
 export const App = () => {
   //auth validation goes here ....
-  const [token] = useState<string | null>(window.localStorage.getItem("token"));
-  const navigate = useNavigate();
-  const { setUser } = useStore();
+  // const [token] = useState<string | null>(window.localStorage.getItem("token"));
+  // const navigate = useNavigate();
+  // const { setUser } = useStore();
 
-  useEffect(() => {
-    if (!token) {
-      return navigate("/");
-    }
-    setUser(parseJwt(token));
-  }, [token, navigate, setUser]);
+  useEffect(() => {}, []);
 
   return (
     //Main layout wrapper
