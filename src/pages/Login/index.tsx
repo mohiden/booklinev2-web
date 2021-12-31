@@ -1,12 +1,41 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { useStore } from "@store";
+import { useMutation } from "react-query";
+import { Api } from "@lib";
+import { User } from "@core";
+import { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
+import { useUserStore } from "@stores";
 
 export const Login = () => {
+  const navigate = useNavigate();
+
+  // check if token available auto navigate to /app
+  useEffect(() => {
+    if (window.localStorage.getItem("token")) {
+      navigate("/app");
+    }
+  }, [navigate]);
+
+  const { setAuthValue } = useUserStore();
+  const login = useMutation<string, AxiosError, User>((data: User) =>
+    Api.post<string>("user/login", data).then((res) => res.data)
+  );
+
   // on form Submit
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: User) => {
     console.log("Received values of form: ", values);
+    login.mutate(
+      { ...values },
+      {
+        onSuccess: (token) => {
+          setAuthValue(token);
+          Api.defaults.headers.common["authorization"] = token;
+          navigate("/app");
+        },
+      }
+    );
   };
   return (
     <div
@@ -44,12 +73,18 @@ export const Login = () => {
         </Form.Item>
 
         <Form.Item>
-          {/* {error && <p>{error.message}</p>} */}
+          {login.isError && (
+            <p>
+              {login.error?.response?.data?.issues
+                ? login.error.response.data?.issues[0]?.message
+                : login.error.response?.data}
+            </p>
+          )}
           <Button
             type="primary"
             htmlType="submit"
             className="login-form-button"
-            loading={false}
+            loading={login.isLoading}
           >
             Log in
           </Button>

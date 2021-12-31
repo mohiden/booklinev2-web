@@ -6,10 +6,11 @@
         "@pages":["pages/index.ts"],
         "@lib":["lib/index.ts"],
         "@layout":["layout/index.ts"],
-        "@store":["store/index.ts"],
+        "@stores":["stores/index.ts"],
         "@generated":["generated/graphql.tsx"],
         "@sections":["sections/index.ts"],
-        "@utils":["utils/index.ts"]
+        "@utils":["utils/index.ts"],
+        "@core":["core/index.ts"]
       }
     }
   }

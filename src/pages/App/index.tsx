@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
-import { Affix, Layout } from "antd";
+import { Layout } from "antd";
 import { Header, Sidebar, Content } from "@layout";
 import { useNavigate } from "react-router";
-import { useStore } from "@store";
 import { parseJwt } from "@utils";
+import { useUserStore } from "@stores";
 
 export const App = () => {
   //auth validation goes here ....
-  // const [token] = useState<string | null>(window.localStorage.getItem("token"));
-  // const navigate = useNavigate();
-  // const { setUser } = useStore();
+  const [token] = useState<string | null>(window.localStorage.getItem("token"));
+  const navigate = useNavigate();
+  const { setUser } = useUserStore();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (!token) return navigate("/");
+    const user = parseJwt(token!);
+    console.log(user);
+    setUser(user);
+  }, [token, navigate, setUser]);
 
   return (
     //Main layout wrapper

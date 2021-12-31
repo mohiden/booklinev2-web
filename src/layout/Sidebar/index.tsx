@@ -4,12 +4,12 @@ import {
   VideoCameraOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
-import { useStore } from "@store";
 import { useNavigate } from "react-router";
+import { useCustomStore } from "@stores";
 export const Sidebar = () => {
-  const { collapse } = useStore();
+  const { collapse } = useCustomStore();
   const navigate = useNavigate();
-  console.log(window.location.pathname);
+  console.log(window.location.pathname.split("/")[2]);
   return (
     <Layout.Sider trigger={null} collapsible collapsed={collapse}>
       <div className="logo">
@@ -18,22 +18,32 @@ export const Sidebar = () => {
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={
-          window.location.pathname.includes("order") ? ["2"] : ["1"]
-        }
+        defaultSelectedKeys={[`${window.location.pathname.split("/")[2]}`]}
+        selectable
         style={{ height: "100vh" }}
       >
-        <Menu.Item key="1" icon={<UserOutlined />} onClick={() => navigate("")}>
+        <Menu.Item
+          key="dashboard"
+          icon={<UserOutlined />}
+          onClick={() => navigate("")}
+        >
           Dashboard
         </Menu.Item>
         <Menu.Item
-          key="2"
+          key="orders"
           icon={<VideoCameraOutlined />}
           onClick={() => navigate("order")}
         >
           Orders
         </Menu.Item>
-        <Menu.Item key="3" icon={<UploadOutlined />}>
+        <Menu.Item
+          key="books"
+          icon={<VideoCameraOutlined />}
+          onClick={() => navigate("books")}
+        >
+          Books
+        </Menu.Item>
+        <Menu.Item key="4" icon={<UploadOutlined />}>
           nav 3
         </Menu.Item>
       </Menu>

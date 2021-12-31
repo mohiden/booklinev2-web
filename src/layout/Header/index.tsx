@@ -6,9 +6,10 @@ import {
   DownOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
-import { useStore } from "@store";
+import { useCustomStore, useUserStore } from "@stores";
 export const Header = () => {
-  const { setCollapse } = useStore();
+  const { user, logout } = useUserStore();
+  const { setCollapse } = useCustomStore();
   return (
     // <Affix>
     <Layout.Header className="header-layout">
@@ -20,8 +21,8 @@ export const Header = () => {
       <Dropdown
         overlay={() => (
           <Menu>
-            <Menu.Item onClick={() => {}} key={0} icon={<LogoutOutlined />}>
-              <a href="javascript(0)">Logout</a>
+            <Menu.Item onClick={logout} key={0} icon={<LogoutOutlined />}>
+              <a href="#">Logout</a>
             </Menu.Item>
           </Menu>
         )}
@@ -32,7 +33,7 @@ export const Header = () => {
           className="ant-dropdown-link"
           onClick={(e) => e.preventDefault()}
         >
-          {"mohiden"} <DownOutlined />
+          {user?.username} <DownOutlined />
         </a>
       </Dropdown>
     </Layout.Header>
