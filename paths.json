@@ -10,7 +10,8 @@
         "@generated":["generated/graphql.tsx"],
         "@sections":["sections/index.ts"],
         "@utils":["utils/index.ts"],
-        "@core":["core/index.ts"]
+        "@core":["core/index.ts"],
+        "@api":["api/index.ts"]
       }
     }
   }

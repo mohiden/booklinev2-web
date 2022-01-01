@@ -1,5 +1,5 @@
 export * from "./Notification";
-
+export * from './Message';
 export function parseJwt(token: string) {
   var base64Url = token.split(".")[1];
   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");

@@ -1,8 +1,10 @@
 import { Layout, Menu } from "antd";
 import {
   UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
+  BookOutlined,
+  OrderedListOutlined,
+  StockOutlined,
+  MoneyCollectOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router";
 import { useCustomStore } from "@stores";
@@ -31,21 +33,34 @@ export const Sidebar = () => {
         </Menu.Item>
         <Menu.Item
           key="orders"
-          icon={<VideoCameraOutlined />}
-          onClick={() => navigate("order")}
+          icon={<OrderedListOutlined />}
+          onClick={() => navigate("orders")}
         >
           Orders
         </Menu.Item>
         <Menu.Item
           key="books"
-          icon={<VideoCameraOutlined />}
+          icon={<BookOutlined />}
           onClick={() => navigate("books")}
         >
           Books
         </Menu.Item>
-        <Menu.Item key="4" icon={<UploadOutlined />}>
-          nav 3
-        </Menu.Item>
+        <Menu.SubMenu title="Shipment" icon={<MoneyCollectOutlined />}>
+          <Menu.Item
+            key="shipments"
+            icon={<StockOutlined />}
+            onClick={() => navigate("shipments")}
+          >
+            Shipments
+          </Menu.Item>
+          <Menu.Item
+            key="shipmentItems"
+            icon={<StockOutlined />}
+            onClick={() => navigate("shipmentItems")}
+          >
+            Items
+          </Menu.Item>
+        </Menu.SubMenu>
       </Menu>
     </Layout.Sider>
   );

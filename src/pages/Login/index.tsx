@@ -1,12 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useMutation } from "react-query";
-import { Api } from "@lib";
-import { User } from "@core";
+import { IUser } from "@core";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@stores";
+import { Api } from "@api";
+import { successMessage } from "@utils";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -19,20 +20,23 @@ export const Login = () => {
   }, [navigate]);
 
   const { setAuthValue } = useUserStore();
-  const login = useMutation<string, AxiosError, User>((data: User) =>
+  const login = useMutation<string, AxiosError, IUser>((data: IUser) =>
     Api.post<string>("user/login", data).then((res) => res.data)
   );
 
   // on form Submit
-  const onFinish = async (values: User) => {
+  const onFinish = async (values: IUser) => {
     console.log("Received values of form: ", values);
     login.mutate(
       { ...values },
       {
         onSuccess: (token) => {
           setAuthValue(token);
-          Api.defaults.headers.common["authorization"] = token;
-          navigate("/app");
+          setTimeout(() => {
+            successMessage("Logged in successfully");
+          }, 1500);
+          window.location.assign("/app");
+          // navigate("/app");
         },
       }
     );

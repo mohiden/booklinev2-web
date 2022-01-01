@@ -1,6 +1,6 @@
 import { BaseModel } from ".";
 
-export interface User extends BaseModel {
+export interface IUser extends BaseModel {
     username: string;
     password: string;
 } 

@@ -1,153 +1,60 @@
-import React, { useState } from "react";
-import { Pagination, Table, Tag } from "antd";
-import { CustomModal } from "@components";
-import { Order } from "@lib";
+import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { Api } from "@api";
+import { IOrder, IShipmentItem } from "@core";
+import { AxiosError } from "axios";
+import Column from "antd/lib/table/Column";
+import { Table, Tag } from "antd";
 import { notify } from "@utils";
-const { Column } = Table;
 
 export const Orders = () => {
-  const [visible, setVisible] = useState<boolean>(false);
-  const [currentOrder, setCurrentOrder] = useState<Order | undefined>();
-  const [modalType, setModalType] = useState<"new" | "update">("new");
+  const { data, isLoading, isError, error } = useQuery<IOrder[], AxiosError>(
+    "getOrders",
+    () => Api.get<IOrder[]>("order/?page=0&size=0").then((res) => res.data)
+  );
+  const [orders, setOrders] = useState<IOrder[]>([]);
 
-  const columns: any = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Phone number",
-      dataIndex: "phoneNumber",
-      key: "phone",
-    },
-    {
-      title: "Area",
-      dataIndex: "area",
-      key: "area",
-    },
-    {
-      title: "Books",
-      dataIndex: "books",
-      key: "books",
-      render: (books: any) => (
-        <>
-          {books.map((tag: any) => {
-            let color = tag.length > 8 ? "geekblue" : "green";
-            if (tag === "atomic habits") {
-              color = "volcano";
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
-    {
-      title: "Actions",
-      key: "actions",
-      render: () => <h1>FUCK this</h1>,
-    },
-  ];
+  useEffect(() => {
+    if (data) {
+      setOrders(data);
+    }
+  }, [data]);
 
-  const onModalFormSubmitHandler = async (body: Order) => {};
+  if (isError) {
+    notify(error?.response?.data, "error", "any desc");
+    return <h1></h1>;
+  }
   return (
     <>
-      <div className="order-top">
-        <img
-          onClick={() => {
-            setModalType("new");
-            setCurrentOrder(undefined);
-            setVisible(true);
-          }}
-          className="add-icon"
-          src="/assets/images/icon_add.png"
-          alt="addIcon"
-        />
-      </div>
-      {/* <Table
-        dataSource={}
-        rowKey={(b) => b.updatedAt}
-        loading={true}
+      <div className="order-top"></div>
+      <Table
+        dataSource={orders}
+        rowKey={(data) => data._id}
+        loading={isLoading}
         pagination={{
           pageSize: 10,
-          responsive: true,
-          showLessItems: true,
-          total: data?.orders.length,
+          total: orders.length,
         }}
       >
-        <Column title="Name" dataIndex="name" key="_id" />
-        <Column title="Phone #" dataIndex="phoneNumber" key="phone" />
-        <Column title="Area" dataIndex="area" key="area" />
+        <Column title="Name" dataIndex="name" key="name" />
+        <Column title="Phone#" dataIndex="phone" key="phone" />
+        <Column title="Address" dataIndex="address" key="address" />
+        <Column title="Quantity" dataIndex="amount" key="qty" />
         <Column
           title="Books"
-          dataIndex="books"
+          dataIndex="shipmentItem"
           key="books"
-          render={(books: any) => (
+          render={(item: IShipmentItem) => (
             <>
-              {books.map((book: any) => (
-                <Tag color="blue" key={book}>
-                  {book}
-                </Tag>
-              ))}
+              <Tag color="blue" key={item._id}>
+                {item.name}
+              </Tag>
             </>
           )}
         />
-        <Column
-          title="Actions"
-          key="actions"
-          render={(obj) => {
-            return (
-              <div>
-                <img
-                  style={{
-                    marginRight: "10px",
-                  }}
-                  className="action-icon"
-                  src="/assets/images/icon_edit.png"
-                  alt="editIcon"
-                  onClick={() => {
-                    setModalType("update");
-                    setCurrentOrder(obj);
-                    setVisible(true);
-                  }}
-                />
-                <img
-                  className="action-icon"
-                  src="/assets/images/icon_delete.png"
-                  alt="deleteIcon"
-                  onClick={() => {
-                    notify("msg", "success", "msg");
-                  }}
-                />
-              </div>
-            );
-          }}
-        />
-      </Table> */}
-
-      {!currentOrder && (
-        <CustomModal
-          visible={visible}
-          setVisible={setVisible}
-          title={"Add"}
-          callback={() => {}}
-          onFormSubmitHandler={onModalFormSubmitHandler}
-        />
-      )}
-      {currentOrder && (
-        <CustomModal
-          title={"Update"}
-          visible={visible}
-          setVisible={setVisible}
-          order={currentOrder}
-          callback={() => {}}
-          onFormSubmitHandler={onModalFormSubmitHandler}
-        />
-      )}
+        <Column title="Total Price" dataIndex="totalPrice" key="price" />
+        <Column title="Discount" dataIndex="discount" key="discount" />
+      </Table>
     </>
   );
 };
