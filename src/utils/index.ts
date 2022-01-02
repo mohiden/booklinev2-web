@@ -1,3 +1,4 @@
+
 export * from "./Notification";
 export * from './Message';
 export function parseJwt(token: string) {
@@ -13,4 +14,11 @@ export function parseJwt(token: string) {
   );
 
   return JSON.parse(jsonPayload);
+}
+
+export const paginatedOptions = <T>(path: string, select?: Array<keyof T>, page: number = 0, size: number = 0) => {
+  const selection = select?.toString().split(',').join(' ');
+  const url = `${path}/${selection ? selection : ""}?page=${page}&size=${size}`;
+  return url;
+
 }

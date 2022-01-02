@@ -1,36 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { Api } from "@api";
-import { IOrder, IShipmentItem } from "@core";
+import { getOrders } from "@api";
+import { IItem, IOrder } from "@core";
 import { AxiosError } from "axios";
 import Column from "antd/lib/table/Column";
-import { Table, Tag } from "antd";
-import { notify } from "@utils";
+import { Table } from "antd";
+import { paginatedOptions, notify } from "@utils";
+import ColumnGroup from "antd/lib/table/ColumnGroup";
 
 export const Orders = () => {
+  //create request url
+  const url = paginatedOptions<IOrder>("order", ["items", "phone"]);
+  //send request using react-query
   const { data, isLoading, isError, error } = useQuery<IOrder[], AxiosError>(
-    "getOrders",
-    () => Api.get<IOrder[]>("order/?page=0&size=0").then((res) => res.data)
+    getOrders.queryName,
+    () => getOrders.queryFn(url)
   );
+
+  // storing data in useState
   const [orders, setOrders] = useState<IOrder[]>([]);
 
+  //setting the data
   useEffect(() => {
     if (data) {
       setOrders(data);
     }
   }, [data]);
 
+  //error handling
   if (isError) {
     notify(error?.response?.data, "error", "any desc");
-    return <h1></h1>;
+    return <h1>{""}</h1>;
   }
   return (
     <>
-      <div className="order-top"></div>
       <Table
         dataSource={orders}
         rowKey={(data) => data._id}
         loading={isLoading}
+        bordered
         pagination={{
           pageSize: 10,
           total: orders.length,
@@ -39,21 +47,33 @@ export const Orders = () => {
         <Column title="Name" dataIndex="name" key="name" />
         <Column title="Phone#" dataIndex="phone" key="phone" />
         <Column title="Address" dataIndex="address" key="address" />
-        <Column title="Quantity" dataIndex="amount" key="qty" />
-        <Column
-          title="Books"
-          dataIndex="shipmentItem"
-          key="books"
-          render={(item: IShipmentItem) => (
+        <ColumnGroup title="items">
+          {orders.map((order, idx) => (
             <>
-              <Tag color="blue" key={item._id}>
-                {item.name}
-              </Tag>
+              <Column
+                title="name"
+                dataIndex="items"
+                key="books"
+                render={(items: IItem[]) => (
+                  <>
+                    <span>{items[idx].shipmentItem.name}</span>
+                  </>
+                )}
+              />
+              <Column
+                title="amount"
+                dataIndex="items"
+                key="books"
+                render={(items: IItem[]) => (
+                  <>
+                    <span>{items[idx].shipmentItem.name}</span>
+                  </>
+                )}
+              />
             </>
-          )}
-        />
+          ))}
+        </ColumnGroup>
         <Column title="Total Price" dataIndex="totalPrice" key="price" />
-        <Column title="Discount" dataIndex="discount" key="discount" />
       </Table>
     </>
   );
