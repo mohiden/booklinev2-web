@@ -1,6 +1,6 @@
 import { BaseModel } from ".";
 
-export interface Book extends BaseModel {
+export interface IBook extends BaseModel {
     name: string;
     author: string;
     language: string;

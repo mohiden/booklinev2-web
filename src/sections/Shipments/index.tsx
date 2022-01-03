@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Table, Input, Button } from "antd";
-import { Api } from "@api";
+import { Api, queries } from "@api";
 import { useQuery } from "react-query";
 import { IShipment } from "@core";
+import { paginatedOptions } from "@utils";
+import { RenderExtendedTable } from "@components";
 const { Column } = Table;
 const { Search } = Input;
 
 export const Shipments = () => {
+  const {
+    shipment: { getShipments },
+  } = queries;
+  const url = paginatedOptions<IShipment>("shipment", [], 0, 0);
   const { data, isLoading, error } = useQuery(
-    ["getShipments"],
-    () =>
-      Api.get<IShipment[]>(`shipment/?page=0&size=0`).then((res) => res.data),
+    getShipments.queryName,
+    () => getShipments.queryFn(url),
     {
       retry: false,
       refetchOnWindowFocus: false,
     }
   );
-  console.log("ERR:", error);
   const [shipments, setShipments] = useState<IShipment[]>([]);
   const [searchText, setSearchText] = useState<string>("");
 
@@ -51,6 +55,11 @@ export const Shipments = () => {
           b.createdBy?.username?.includes(searchText)
         )}
         rowKey={(data) => data._id}
+        expandable={{
+          expandedRowRender: (row) => {
+            return <RenderExtendedTable id={row._id} />;
+          },
+        }}
         showHeader
         bordered
         loading={isLoading}

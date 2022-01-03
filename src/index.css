@@ -46,4 +46,11 @@
 .search-input {
   margin: 1rem 0;
   display: flex;
+  justify-content: space-between;
+}
+.ant-layout-sider .ant-layout-sider-dark {
+  height: auto !important;
+}
+.ant-layout-sider-children {
+  height: auto !important;
 }

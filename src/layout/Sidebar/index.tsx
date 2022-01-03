@@ -22,7 +22,7 @@ export const Sidebar = () => {
         mode="inline"
         defaultSelectedKeys={[`${window.location.pathname.split("/")[2]}`]}
         selectable
-        style={{ height: "100vh" }}
+        style={{ height: "100%" }}
       >
         <Menu.Item
           key="dashboard"
@@ -53,13 +53,13 @@ export const Sidebar = () => {
           >
             Shipments
           </Menu.Item>
-          <Menu.Item
+          {/* <Menu.Item
             key="shipmentItems"
             icon={<StockOutlined />}
             onClick={() => navigate("shipmentItems")}
           >
             Items
-          </Menu.Item>
+          </Menu.Item> */}
         </Menu.SubMenu>
       </Menu>
     </Layout.Sider>

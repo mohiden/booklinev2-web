@@ -5,6 +5,7 @@ interface UserStoreState {
     user: Omit<IUser, "password"> | null;
     setUser: (user: Omit<IUser, "password">) => void;
     logout: () => void;
+
 }
 
 export const useUserStore = create<UserStoreState>((set) => ({
