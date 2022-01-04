@@ -1,34 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { Table, Input, Button } from "antd";
+import React, { useState } from "react";
+import { Table } from "antd";
 import { queries } from "@api";
 import { useQuery } from "react-query";
 import { IBook } from "@core";
 import { paginatedOptions } from "@utils";
+import { TableTopArea } from "@components";
 const { Column } = Table;
-const { Search } = Input;
 
 export const Books = () => {
   const {
     book: { getBooks },
   } = queries;
-  const url = paginatedOptions<IBook>("book", [], 0, 0);
+  const [searchText, setSearchText] = useState<string>("");
+  const url = paginatedOptions<IBook>("book", [], 0, 0, searchText);
   const { data, isLoading } = useQuery(
-    getBooks.queryName,
+    [getBooks.queryName, searchText],
     () => getBooks.queryFn(url),
     {
-      retry: false,
       refetchOnWindowFocus: false,
     }
   );
-  const [books, setBooks] = useState<IBook[]>([]);
-  const [searchText, setSearchText] = useState<string>("");
-
-  useEffect(() => {
-    if (data) {
-      setBooks(data);
-    }
-  }, [data]);
-  console.log("BOOKS:", data);
 
   //on search function
   function onSearchHandler(e: React.ChangeEvent<HTMLInputElement>) {
@@ -37,28 +28,21 @@ export const Books = () => {
 
   return (
     <>
-      <div className="search-input">
-        <Search
-          style={{ width: "20rem" }}
-          size="large"
-          placeholder="Search"
-          allowClear
-          onChange={onSearchHandler}
-        />
-        <Button size="large" type="primary">
-          Create
-        </Button>
-      </div>
+      <TableTopArea
+        btnText="Create book"
+        onSearch={onSearchHandler}
+        callback={() => {}}
+      />
       <Table
-        dataSource={books.filter((b) => b?.name?.includes(searchText))}
+        dataSource={data}
         rowKey={(data) => data._id}
         loading={isLoading}
         pagination={{
           pageSize: 10,
-          total: books?.length,
+          total: data?.length,
         }}
       >
-        <Column title="ID" dataIndex="_id" key="_id" />
+        {/* <Column title="ID" dataIndex="_id" key="_id" /> */}
         <Column title="Name" dataIndex="name" key="name" />
         <Column title="Author" dataIndex="author" key="author" />
         <Column title="Language" dataIndex="language" key="language" />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table, Input, Button } from "antd";
-import { Api, queries } from "@api";
+import { queries } from "@api";
 import { useQuery } from "react-query";
 import { IShipment } from "@core";
 import { paginatedOptions } from "@utils";
@@ -13,7 +13,7 @@ export const Shipments = () => {
     shipment: { getShipments },
   } = queries;
   const url = paginatedOptions<IShipment>("shipment", [], 0, 0);
-  const { data, isLoading, error } = useQuery(
+  const { data, isLoading } = useQuery(
     getShipments.queryName,
     () => getShipments.queryFn(url),
     {
@@ -59,6 +59,7 @@ export const Shipments = () => {
           expandedRowRender: (row) => {
             return <RenderExtendedTable id={row._id} />;
           },
+          expandRowByClick: true,
         }}
         showHeader
         bordered
@@ -68,7 +69,7 @@ export const Shipments = () => {
           total: shipments?.length,
         }}
       >
-        <Column title="ID" dataIndex="_id" key="_id" />
+        {/* <Column title="ID" dataIndex="_id" key="_id" /> */}
         <Column title="Month" dataIndex="month" key="month" />
         <Column title="Year" dataIndex="year" key="year" />
         <Column
@@ -81,8 +82,12 @@ export const Shipments = () => {
         />
         <Column
           title="Actions"
-          render={() => {
-            return <Button type="ghost">Explore</Button>;
+          render={(row) => {
+            return (
+              <Button type="ghost" onClick={() => row.e}>
+                Explore
+              </Button>
+            );
           }}
         />
       </Table>

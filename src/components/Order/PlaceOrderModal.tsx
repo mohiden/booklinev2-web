@@ -1,7 +1,7 @@
 import { IShipmentItem } from "@core";
 import { OrderInput } from "@lib";
 import { useCustomStore } from "@stores";
-import { AutoComplete, Form, Input, Modal, Select } from "antd";
+import { AutoComplete, Form, FormInstance, Input, Modal, Select } from "antd";
 import React from "react";
 const { Option } = Select;
 
@@ -9,17 +9,17 @@ interface CustomModalProps {
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
-  callback: (values: OrderInput) => void;
+  callback: (values: OrderInput, form: FormInstance<any>) => void;
   item: IShipmentItem | undefined;
   errorText: string;
   loading: boolean;
 }
 
-export const CustomModal: React.FC<CustomModalProps> = ({
-  title,
+export const PlaceOrderModal: React.FC<CustomModalProps> = ({
   callback,
-  visible,
   setVisible,
+  title,
+  visible,
   item,
   errorText,
   loading,
@@ -27,16 +27,20 @@ export const CustomModal: React.FC<CustomModalProps> = ({
   const {
     customersDetail: { names, phones, addresses },
   } = useCustomStore();
+  console.log(names, phones, addresses);
   const [form] = Form.useForm();
   return (
     <Modal
+      destroyOnClose={true}
       visible={visible}
       title={title}
       okText={title}
       onOk={() => form.submit()}
       confirmLoading={loading}
-      onCancel={() => setVisible(false)}
-      destroyOnClose
+      onCancel={() => {
+        setVisible(false);
+        form.resetFields();
+      }}
     >
       <Form
         form={form}
@@ -59,7 +63,7 @@ export const CustomModal: React.FC<CustomModalProps> = ({
               },
             ],
           };
-          callback(body);
+          callback(body, form);
         }}
       >
         <Form.Item name="name" rules={[{ required: true }]}>

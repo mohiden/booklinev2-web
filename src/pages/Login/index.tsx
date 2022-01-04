@@ -27,16 +27,14 @@ export const Login = () => {
   // on form Submit
   const onFinish = async (values: IUser) => {
     console.log("Received values of form: ", values);
-    login.mutate(
+    await login.mutate(
       { ...values },
       {
         onSuccess: (token) => {
           setAuthValue(token);
-          setTimeout(() => {
-            successMessage("Logged in successfully");
-          }, 1500);
-          window.location.assign("/app");
-          // navigate("/app");
+          Api.defaults.headers.common["authorization"] = token;
+          successMessage("Logged in successfully");
+          navigate("/app");
         },
       }
     );

@@ -48,9 +48,9 @@
   display: flex;
   justify-content: space-between;
 }
-.ant-layout-sider .ant-layout-sider-dark {
+/* .ant-layout-sider .ant-layout-sider-dark {
   height: auto !important;
 }
 .ant-layout-sider-children {
   height: auto !important;
-}
+} */

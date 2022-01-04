@@ -1,19 +1,14 @@
 import { mutations, queries } from "@api";
-import { CustomModal } from "@components";
+import { PlaceOrderModal } from "@components";
 import { IShipmentItem } from "@core";
 import { OrderInput } from "@lib";
 import { notify, paginatedOptions } from "@utils";
-import { Badge, Button, Table } from "antd";
+import { Badge, Button, FormInstance, Table } from "antd";
 import Search from "antd/lib/input/Search";
 import Column from "antd/lib/table/Column";
 import { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 interface Props {
   id: string;
@@ -51,35 +46,40 @@ export const RenderExtendedTable = ({ id }: Props) => {
   }, [data, id]);
 
   const renderSearchBar = () => {
-    return <Search size={"large"} style={{ width: "20rem" }} />;
+    return <Search size={"middle"} style={{ width: "20rem" }} />;
   };
 
-  const onFormSubmitHandler = (values: OrderInput) => {
+  const onFormSubmitHandler = async (
+    values: OrderInput,
+    form: FormInstance<any>
+  ) => {
     postOrder.mutate(
       { ...values },
       {
         onSuccess: (data) => {
           console.log(data);
+          setVisible(false);
+          notify("Order Added", "success", "");
           queryClient.invalidateQueries(
             queries.shipmentItem.getShipmentItems.queryName
+          );
+          form.resetFields();
+          setErrorText("");
+        },
+        onError: (error) => {
+          setErrorText(
+            error?.response?.data?.issues
+              ? error.response.data?.issues[0]?.message
+              : error.response?.data
           );
         },
       }
     );
-    if (postOrder.isError && postOrder.error) {
-      return setErrorText(
-        postOrder.error?.response?.data?.issues
-          ? postOrder.error.response.data?.issues[0]?.message
-          : postOrder.error.response?.data
-      );
-    }
-    setVisible(false);
-    notify("Order Added", "success", "");
   };
 
   return (
     <>
-      <CustomModal
+      <PlaceOrderModal
         visible={visible}
         setVisible={setVisible}
         callback={onFormSubmitHandler}

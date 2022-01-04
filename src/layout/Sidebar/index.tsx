@@ -4,7 +4,6 @@ import {
   BookOutlined,
   OrderedListOutlined,
   StockOutlined,
-  MoneyCollectOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router";
 import { useCustomStore } from "@stores";
@@ -45,22 +44,22 @@ export const Sidebar = () => {
         >
           Books
         </Menu.Item>
-        <Menu.SubMenu title="Shipment" icon={<MoneyCollectOutlined />}>
-          <Menu.Item
-            key="shipments"
-            icon={<StockOutlined />}
-            onClick={() => navigate("shipments")}
-          >
-            Shipments
-          </Menu.Item>
-          {/* <Menu.Item
+        {/* <Menu.SubMenu title="Shipment" icon={<MoneyCollectOutlined />}> */}
+        <Menu.Item
+          key="shipments"
+          icon={<StockOutlined />}
+          onClick={() => navigate("shipments")}
+        >
+          Shipments
+        </Menu.Item>
+        {/* <Menu.Item
             key="shipmentItems"
             icon={<StockOutlined />}
             onClick={() => navigate("shipmentItems")}
           >
             Items
           </Menu.Item> */}
-        </Menu.SubMenu>
+        {/* </Menu.SubMenu> */}
       </Menu>
     </Layout.Sider>
   );

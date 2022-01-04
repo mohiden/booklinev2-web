@@ -5,9 +5,14 @@ const { Search } = Input;
 interface Props {
   callback: () => void;
   btnText: string;
+  onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const TableTopArea: React.FC<Props> = ({ callback, btnText }) => {
+export const TableTopArea: React.FC<Props> = ({
+  callback,
+  onSearch,
+  btnText,
+}) => {
   return (
     <div className="search-input">
       <Search
@@ -15,7 +20,8 @@ export const TableTopArea: React.FC<Props> = ({ callback, btnText }) => {
         size="large"
         placeholder="Search"
         allowClear
-        onChange={() => {}}
+        onChange={onSearch}
+        // onSearch={onSearch}
       />
       <Button size="large" type="primary" onClick={callback}>
         {btnText}

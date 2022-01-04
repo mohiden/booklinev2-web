@@ -16,9 +16,9 @@ export function parseJwt(token: string) {
   return JSON.parse(jsonPayload);
 }
 
-export const paginatedOptions = <T>(path: string, select?: Array<keyof T>, page: number = 0, size: number = 0) => {
+export const paginatedOptions = <T>(path: string, select?: Array<keyof T>, page: number = 0, size: number = 0, search?: string) => {
   const selection = select?.toString().split(',').join(' ');
-  const url = `${path}/${selection ? selection : ""}?page=${page}&size=${size}`;
+  const url = `${path}/${selection ? selection : ""}?page=${page}&size=${size}&search=${search && search}`;
   return url;
 
 }

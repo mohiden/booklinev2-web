@@ -19,12 +19,8 @@ export const App = () => {
     setUser(user);
 
     //setting customers detail into store
-    Api.get("static/customers_detail", {
-      headers: {
-        Authorization: window.localStorage.getItem("token") ?? "",
-      },
-    }).then((res) => {
-      console.log(res.data);
+    Api.get("static/customers_detail").then((res) => {
+      console.log("CUSTOMER", res.data);
       setCustomerDetail(res.data);
     });
   }, [token, navigate, setUser, setCustomerDetail]);

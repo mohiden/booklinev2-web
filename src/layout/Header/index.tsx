@@ -1,10 +1,11 @@
 import React from "react";
-import { Dropdown, Layout, Menu } from "antd";
+import { Button, Dropdown, Layout, Menu } from "antd";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   DownOutlined,
   LogoutOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { useCustomStore, useUserStore } from "@stores";
 export const Header = () => {
@@ -22,19 +23,16 @@ export const Header = () => {
         overlay={() => (
           <Menu>
             <Menu.Item onClick={logout} key={0} icon={<LogoutOutlined />}>
-              <a href="#">Logout</a>
+              <span>Logout</span>
             </Menu.Item>
           </Menu>
         )}
         trigger={["click"]}
       >
-        <a
-          href="javascript(0)"
-          className="ant-dropdown-link"
-          onClick={(e) => e.preventDefault()}
-        >
+        <Button className="ant-dropdown-link" type="link">
+          <UserOutlined />
           {user?.username} <DownOutlined />
-        </a>
+        </Button>
       </Dropdown>
     </Layout.Header>
     // </Affix>
