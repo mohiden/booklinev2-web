@@ -27,7 +27,7 @@ export const PlaceOrderModal: React.FC<CustomModalProps> = ({
   const {
     customersDetail: { names, phones, addresses },
   } = useCustomStore();
-  console.log(names, phones, addresses);
+  // console.log(names, phones, addresses);
   const [form] = Form.useForm();
   return (
     <Modal

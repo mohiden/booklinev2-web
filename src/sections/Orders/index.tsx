@@ -7,7 +7,6 @@ import { Table, Tag } from "antd";
 import { paginatedOptions, notify } from "@utils";
 import { queries } from "@api";
 import { CreateOrderDrawer, RenderItemsTable, TableTopArea } from "@components";
-
 export const Orders = () => {
   const [searchText, setSearchText] = useState("");
   //useQuery axios get method
@@ -23,10 +22,6 @@ export const Orders = () => {
   >([getOrders.queryName, searchText], () => getOrders.queryFn(url));
 
   const [visible, setVisible] = useState(false);
-
-  // storing data in useState
-
-  //setting the data
 
   //error handling
   if (isError) {
@@ -58,7 +53,9 @@ export const Orders = () => {
         }}
         expandable={{
           expandRowByClick: true,
-          expandedRowRender: (row) => <RenderItemsTable items={row.items} />,
+          expandedRowRender: (row) => (
+            <RenderItemsTable items={row.items} currentOrder={row} />
+          ),
         }}
       >
         <Column title="Name" dataIndex="name" key="name" />

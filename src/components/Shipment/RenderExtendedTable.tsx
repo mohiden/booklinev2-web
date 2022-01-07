@@ -1,10 +1,9 @@
 import { mutations, queries } from "@api";
-import { PlaceOrderModal } from "@components";
+import { PlaceOrderModal, TableTopArea } from "@components";
 import { IShipmentItem } from "@core";
 import { OrderInput } from "@lib";
 import { notify, paginatedOptions } from "@utils";
 import { Badge, Button, FormInstance, Table } from "antd";
-import Search from "antd/lib/input/Search";
 import Column from "antd/lib/table/Column";
 import { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";
@@ -16,8 +15,15 @@ interface Props {
 
 export const RenderExtendedTable = ({ id }: Props) => {
   const queryClient = useQueryClient();
+  const [searchText, setSearchText] = useState("");
   //generate request url
-  const url = paginatedOptions<IShipmentItem>("shipmentItem", [], 0, 0);
+  const url = paginatedOptions<IShipmentItem>(
+    "shipmentItem",
+    [],
+    0,
+    0,
+    searchText
+  );
   //reactQuery requests
   const {
     shipmentItem: { getShipmentItems },
@@ -26,8 +32,9 @@ export const RenderExtendedTable = ({ id }: Props) => {
     order: { createOrder },
   } = mutations;
   //sending request
-  const { data, isLoading } = useQuery(getShipmentItems.queryName, () =>
-    getShipmentItems.queryFn(url)
+  const { data, isLoading } = useQuery(
+    [getShipmentItems.queryName, searchText],
+    () => getShipmentItems.queryFn(url)
   );
   //create order mutation request
   const postOrder = useMutation<any, AxiosError, OrderInput>(
@@ -37,16 +44,25 @@ export const RenderExtendedTable = ({ id }: Props) => {
   const [shipmentItems, setShipmentItems] = useState<IShipmentItem[]>([]);
   const [item, setItem] = useState<IShipmentItem>();
   const [errorText, setErrorText] = useState("");
-
   const [visible, setVisible] = useState(false);
+
   useEffect(() => {
     if (data) {
-      setShipmentItems(data.filter((item) => item.shipment._id === id));
+      setShipmentItems(data.filter((item) => item?.shipment?._id === id));
     }
-  }, [data, id]);
+  }, [data, id, searchText]);
 
   const renderSearchBar = () => {
-    return <Search size={"middle"} style={{ width: "20rem" }} />;
+    return (
+      <TableTopArea
+        btnText="Create"
+        onSearch={(e: React.ChangeEvent<HTMLInputElement>) => {
+          console.log(e.target.value);
+          setSearchText(e.target.value);
+        }}
+        callback={() => {}}
+      />
+    );
   };
 
   const onFormSubmitHandler = async (
@@ -93,7 +109,10 @@ export const RenderExtendedTable = ({ id }: Props) => {
         dataSource={shipmentItems}
         rowKey={(row) => row._id}
         loading={isLoading}
-        pagination={false}
+        pagination={{
+          pageSize: 5,
+          total: shipmentItems.length,
+        }}
       >
         {/* <Column title="ID" dataIndex="_id" key="id" /> */}
         <Column title="Name" dataIndex="name" key="name" />

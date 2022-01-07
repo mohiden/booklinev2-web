@@ -20,6 +20,10 @@ export const queries = {
             queryName: 'getOrders',
             queryFn: (url: string) => Api.get<IOrder[]>(url).then((res) => res.data)
         },
+        mark_as_delivered: {
+            queryName: "markAsDelivered",
+            queryFn: (url: string) => Api.get<boolean>(url).then(res => res.data)
+        }
     },
     shipmentItem: {
         getShipmentItems: {
