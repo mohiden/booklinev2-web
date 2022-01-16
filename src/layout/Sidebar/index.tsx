@@ -6,9 +6,9 @@ import {
   StockOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router";
-import { useCustomStore } from "@stores";
+import { usePublicStore } from "@stores";
 export const Sidebar = () => {
-  const { collapse } = useCustomStore();
+  const { collapse } = usePublicStore();
   const navigate = useNavigate();
   console.log(window.location.pathname.split("/")[2]);
   return (

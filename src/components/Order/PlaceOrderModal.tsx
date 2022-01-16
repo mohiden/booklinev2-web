@@ -1,6 +1,6 @@
 import { IShipmentItem } from "@core";
 import { OrderInput } from "@lib";
-import { useCustomStore } from "@stores";
+import { usePublicStore } from "@stores";
 import { AutoComplete, Form, FormInstance, Input, Modal, Select } from "antd";
 import React from "react";
 const { Option } = Select;
@@ -26,9 +26,10 @@ export const PlaceOrderModal: React.FC<CustomModalProps> = ({
 }) => {
   const {
     customersDetail: { names, phones, addresses },
-  } = useCustomStore();
-  // console.log(names, phones, addresses);
+  } = usePublicStore();
+
   const [form] = Form.useForm();
+
   return (
     <Modal
       destroyOnClose={true}
@@ -36,7 +37,9 @@ export const PlaceOrderModal: React.FC<CustomModalProps> = ({
       title={title}
       okText={title}
       onOk={() => form.submit()}
+      closable={true}
       confirmLoading={loading}
+      focusTriggerAfterClose
       onCancel={() => {
         setVisible(false);
         form.resetFields();

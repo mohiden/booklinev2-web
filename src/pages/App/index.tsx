@@ -3,7 +3,7 @@ import { Layout } from "antd";
 import { Header, Sidebar, Content } from "@layout";
 import { useNavigate } from "react-router";
 import { parseJwt } from "@utils";
-import { useCustomStore, useUserStore } from "@stores";
+import { usePublicStore, useUserStore } from "@stores";
 import { Api } from "@api";
 
 export const App = () => {
@@ -11,7 +11,7 @@ export const App = () => {
   const [token] = useState<string | null>(window.localStorage.getItem("token"));
   const navigate = useNavigate();
   const { setUser } = useUserStore();
-  const { setCustomerDetail } = useCustomStore();
+  const { setCustomerDetail } = usePublicStore();
 
   useEffect(() => {
     if (!token) return navigate("/");

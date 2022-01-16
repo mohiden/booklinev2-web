@@ -1,7 +1,7 @@
 import { ICustomerDetail } from '@core';
 import create from 'zustand';
 
-interface CustomStoreState {
+interface PublicStoreState {
     collapse: boolean;
     setCollapse: () => void;
     customersDetail: ICustomerDetail;
@@ -9,7 +9,7 @@ interface CustomStoreState {
 }
 
 
-export const useCustomStore = create<CustomStoreState>((set) => ({
+export const usePublicStore = create<PublicStoreState>((set) => ({
     collapse: false,
     setCollapse: () => set((state) => ({ collapse: !state.collapse })),
     customersDetail: { names: [], phones: [], addresses: [] },

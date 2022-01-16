@@ -1,2 +1,2 @@
 export * from './user.store';
-export * from './custom.store';
+export * from './public.store';

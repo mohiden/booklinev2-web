@@ -73,6 +73,12 @@ export const Shipments = () => {
         <Column title="Month" dataIndex="month" key="month" />
         <Column title="Year" dataIndex="year" key="year" />
         <Column
+          title="Total"
+          dataIndex="total"
+          key="total"
+          render={(value: number) => <span>${value}</span>}
+        />
+        <Column
           title="created by"
           dataIndex="createdBy"
           key="createdBy"

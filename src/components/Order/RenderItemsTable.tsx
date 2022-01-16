@@ -55,11 +55,12 @@ export const RenderItemsTable = ({ items, currentOrder }: Props) => {
           return (
             <>
               <Badge
-                text={delivered ? "Yes " : "No "}
-                status={delivered ? "success" : "processing"}
+                text={delivered ? "Yes " : ""}
+                status={delivered ? "success" : "error"}
               />
               {!delivered && (
                 <Popconfirm
+                  key={record._id}
                   icon={<QuestionCircleOutlined style={{ color: "red" }} />}
                   title="are you sure?"
                   destroyTooltipOnHide
@@ -75,14 +76,19 @@ export const RenderItemsTable = ({ items, currentOrder }: Props) => {
                   }}
                 >
                   <Button
+                    key={record._id}
                     size="small"
                     type="link"
-                    onClick={() => {
-                      setVisible(true);
+                    onClick={async () => {
+                      await refetch();
+                      await queryClient.invalidateQueries(getOrders.queryName);
+                      setVisible(false);
+                      successMessage("marked as Delivered!");
+                      // setVisible(true);
                     }}
                     loading={isLoading}
                   >
-                    Mark as delivered
+                    Mark as delivered{record._id}
                   </Button>
                 </Popconfirm>
               )}

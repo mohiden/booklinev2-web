@@ -7,10 +7,10 @@ import {
   LogoutOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { useCustomStore, useUserStore } from "@stores";
+import { usePublicStore, useUserStore } from "@stores";
 export const Header = () => {
   const { user, logout } = useUserStore();
-  const { setCollapse } = useCustomStore();
+  const { setCollapse } = usePublicStore();
   return (
     // <Affix>
     <Layout.Header className="header-layout">
