@@ -20,16 +20,20 @@ export const RenderItemsTable = ({ items, currentOrder }: Props) => {
   const { refetch, isLoading } = useQuery(
     [mark_as_delivered.queryName],
     () =>
-      mark_as_delivered.queryFn(`order/mark_as_delivered/${markAsDeliveredId}`),
+      mark_as_delivered.queryFn(`order/mark_as_delivered/${orderId}/${itemId}`),
     {
       enabled: false,
     }
   );
-  const [markAsDeliveredId, setMarkAsDeliveredId] = useState("");
+  const [orderId, setOrderId] = useState("");
+  const [itemId, setItemId] = useState("");
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    setMarkAsDeliveredId(currentOrder._id);
+    setOrderId(currentOrder._id);
+    return () => {
+      setOrderId("");
+    };
   }, [currentOrder]);
 
   return (
@@ -51,7 +55,8 @@ export const RenderItemsTable = ({ items, currentOrder }: Props) => {
         title="Delivered"
         dataIndex="isDelivered"
         key="delivered"
-        render={(delivered: boolean, record: IOrder) => {
+        render={(delivered: boolean, record: IOrder, index) => {
+          setItemId(record._id);
           return (
             <>
               <Badge
@@ -60,11 +65,11 @@ export const RenderItemsTable = ({ items, currentOrder }: Props) => {
               />
               {!delivered && (
                 <Popconfirm
-                  key={record._id}
+                  key={index}
                   icon={<QuestionCircleOutlined style={{ color: "red" }} />}
                   title="are you sure?"
                   destroyTooltipOnHide
-                  visible={visible}
+                  visible={itemId === record._id ? visible : false}
                   onConfirm={async () => {
                     await refetch();
                     await queryClient.invalidateQueries(getOrders.queryName);
@@ -76,15 +81,14 @@ export const RenderItemsTable = ({ items, currentOrder }: Props) => {
                   }}
                 >
                   <Button
-                    key={record._id}
+                    key={index}
                     size="small"
                     type="link"
-                    onClick={async () => {
-                      await refetch();
-                      await queryClient.invalidateQueries(getOrders.queryName);
-                      setVisible(false);
-                      successMessage("marked as Delivered!");
-                      // setVisible(true);
+                    onMouseOver={() => setItemId(record._id)}
+                    onClick={() => {
+                      setItemId(record._id);
+                      itemId === record._id && setVisible(true);
+                      console.log(itemId);
                     }}
                     loading={isLoading}
                   >
