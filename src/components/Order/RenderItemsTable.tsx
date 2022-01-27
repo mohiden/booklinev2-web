@@ -88,11 +88,10 @@ export const RenderItemsTable = ({ items, currentOrder }: Props) => {
                     onClick={() => {
                       setItemId(record._id);
                       itemId === record._id && setVisible(true);
-                      console.log(itemId);
                     }}
                     loading={isLoading}
                   >
-                    Mark as delivered{record._id}
+                    Mark as delivered
                   </Button>
                 </Popconfirm>
               )}
